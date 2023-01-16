@@ -18,6 +18,8 @@ class RegisterAPI(generics.GenericAPIView):
         "user": UserSerializer(user, context=self.get_serializer_context()).data,
         "token": AuthToken.objects.create(user)[1]
         })
+    
+     #Login API
 
 from django.contrib.auth import login
 
@@ -34,3 +36,6 @@ class LoginAPI(KnoxLoginView):
         user = serializer.validated_data['user']
         login(request, user)
         return super(LoginAPI, self).post(request, format=None)
+    #index
+def index(request):
+    return HttpResponse("Welcome")
