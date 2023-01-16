@@ -9,12 +9,12 @@ class UserSerializer(serializers.ModelSerializer):
 
 # Register Serializer
 class RegisterSerializer(serializers.ModelSerializer):
-    password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+    confirm_password = serializers.CharField(style={'input_type': 'password'}, write_only=True)
     password = serializers.CharField(style={'input_type': 'password'}, write_only=True)
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'password', 'password2')
+        fields = ('id', 'username', 'password', 'confirm_password')
         extra_kwargs = {'password': {'write_only': True}}
 
     def save(self):
@@ -22,9 +22,9 @@ class RegisterSerializer(serializers.ModelSerializer):
             username=self.validated_data['username']
         )
         password = self.validated_data['password']
-        password2 = self.validated_data['password2']
+        confirm_password = self.validated_data['password2']
 
-        if password != password2:
+        if password != confirm_password:
             raise serializers.ValidationError({'password': 'Password does not match'})
         reg.set_password(password)
         reg.save()
